@@ -54,4 +54,23 @@ public class PasswordController {
             return "Error: " + e.getMessage();
         }
     }
+    @PostMapping("/set-storage-file")
+    public String setStorageFile(@RequestParam String path) {
+        try {
+            passwordService.setStorageFile(path);
+            return "Storage file location set to: " + path;
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
+    }
+
+    @PostMapping("/load-passwords")
+    public Object loadPasswords(@RequestParam String path) {
+        try {
+            passwordService.setStorageFile(path);
+            return passwordService.getAllPasswords();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
+    }
 }

@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: passman
+    env: java
+    buildCommand: ./mvn clean package
+    startCommand: java -jar target/*.jar

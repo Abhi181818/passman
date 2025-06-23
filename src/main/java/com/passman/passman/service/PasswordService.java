@@ -15,8 +15,19 @@ import java.util.UUID;
 
 @Service
 public class PasswordService {
-    private final File storageFile = new File("passwords.json");
+    private File storageFile;
     private final ObjectMapper mapper = new ObjectMapper();
+
+    public PasswordService() {
+        this.storageFile = new File("passwords.json");
+    }
+
+    public void setStorageFile(String path) {
+        if (!path.endsWith(".json")) {
+            throw new IllegalArgumentException("Storage file must be a .json file");
+        }
+        this.storageFile = new File(path);
+    }
 
     public List<PasswordEntry> getAllPasswords() throws Exception {
         if (!storageFile.exists()) return new ArrayList<>();
