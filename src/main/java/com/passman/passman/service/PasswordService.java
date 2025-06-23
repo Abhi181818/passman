@@ -42,4 +42,19 @@ public class PasswordService {
                 .map(PasswordEntry::getEncryptedPassword)
                 .orElse("Service not found");
     }
+
+    public String getOriginalPasswordForServiceAndUser(String service, String username) throws Exception {
+        List<PasswordEntry> list = getAllPasswords();
+        return list.stream()
+                .filter(p -> p.getServiceName().equalsIgnoreCase(service) && p.getUsername().equalsIgnoreCase(username))
+                .findFirst()
+                .map(p -> {
+                    try {
+                        return EncryptUtil.decrypt(p.getEncryptedPassword());
+                    } catch (Exception e) {
+                        return "Error decrypting";
+                    }
+                })
+                .orElse("Service not found");
+    }
 }

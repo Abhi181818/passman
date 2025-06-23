@@ -1,6 +1,7 @@
 package com.passman.passman.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,6 +14,7 @@ import com.passman.passman.service.PasswordService;
 
 @RestController
 @RequestMapping("/api/passwords")
+@CrossOrigin(origins = "*") 
 public class PasswordController {
 
     @Autowired
@@ -32,6 +34,22 @@ public class PasswordController {
     public String getPassword(@RequestParam String service) {
         try {
             return passwordService.getPasswordForService(service);
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
+    }
+     @GetMapping("/all")
+    public Object getAllPasswords() {
+        try {
+            return passwordService.getAllPasswords();
+        } catch (Exception e) {
+            return "Error: " + e.getMessage();
+        }
+    }
+    @GetMapping("/get-original")
+    public String getOriginalPassword(@RequestParam String service, @RequestParam String username) {
+        try {
+            return passwordService.getOriginalPasswordForServiceAndUser(service, username);
         } catch (Exception e) {
             return "Error: " + e.getMessage();
         }
