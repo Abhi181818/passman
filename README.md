@@ -40,7 +40,7 @@ passman/
 
 ### 1. Clone the repository
 ```sh
-git clone <your-repo-url>
+git clone (https://github.com/Abhi181818/passman.git)
 cd passman
 ```
 
