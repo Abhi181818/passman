@@ -21,9 +21,9 @@ public class PasswordController {
     private PasswordService passwordService;
 
     @PostMapping("/add")
-    public String addPassword(@RequestBody AddPasswordRequest request) {
+    public String addPassword(@RequestParam String username, @RequestBody AddPasswordRequest request) {
         try {
-            passwordService.addPassword(request.getService(), request.getUsername(), request.getPassword());
+            passwordService.addPassword(username, request.getService(), request.getUsername(), request.getPassword());
             return "Password added successfully!";
         } catch (Exception e) {
             return "Error: " + e.getMessage();
@@ -31,33 +31,33 @@ public class PasswordController {
     }
 
     @GetMapping("/get")
-    public String getPassword(@RequestParam String service) {
+    public String getPassword(@RequestParam String username, @RequestParam String service) {
         try {
-            return passwordService.getPasswordForService(service);
+            return passwordService.getPasswordForService(username, service);
         } catch (Exception e) {
             return "Error: " + e.getMessage();
         }
     }
      @GetMapping("/all")
-    public Object getAllPasswords() {
+    public Object getAllPasswords(@RequestParam String username) {
         try {
-            return passwordService.getAllPasswords();
+            return passwordService.getAllPasswords(username);
         } catch (Exception e) {
             return "Error: " + e.getMessage();
         }
     }
     @GetMapping("/get-original")
-    public String getOriginalPassword(@RequestParam String service, @RequestParam String username) {
+    public String getOriginalPassword(@RequestParam String username, @RequestParam String service, @RequestParam String user) {
         try {
-            return passwordService.getOriginalPasswordForServiceAndUser(service, username);
+            return passwordService.getOriginalPasswordForServiceAndUser(username, service, user);
         } catch (Exception e) {
             return "Error: " + e.getMessage();
         }
     }
     @PostMapping("/set-storage-file")
-    public String setStorageFile(@RequestParam String path) {
+    public String setStorageFile(@RequestParam String username, @RequestParam String path) {
         try {
-            passwordService.setStorageFile(path);
+            passwordService.setStorageFile(username, path);
             return "Storage file location set to: " + path;
         } catch (Exception e) {
             return "Error: " + e.getMessage();
@@ -65,10 +65,10 @@ public class PasswordController {
     }
 
     @PostMapping("/load-passwords")
-    public Object loadPasswords(@RequestParam String path) {
+    public Object loadPasswords(@RequestParam String username, @RequestParam String path) {
         try {
-            passwordService.setStorageFile(path);
-            return passwordService.getAllPasswords();
+            passwordService.setStorageFile(username, path);
+            return passwordService.getAllPasswords(username);
         } catch (Exception e) {
             return "Error: " + e.getMessage();
         }
